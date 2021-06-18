@@ -1,0 +1,17 @@
+class Solution {
+    public void moveZeroes(int[] nums) {
+    //from index 0 to record non-zero number
+    int j = 0;
+    for ( int i = 0 ; i< nums.length; i++){
+        //if not zero, copy the number to index j,j++
+        if(nums[i] != 0){
+            nums[j] = nums[i];
+            j++;
+        }
+    }
+    // the rest of the elements of the array should be 0 after non-zero numbers have move to the front
+    while ( j < nums.length ){
+        nums[j++] = 0;
+    }
+    }
+}
