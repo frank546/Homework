@@ -1,0 +1,41 @@
+class Solution {
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+
+     // apply for a new array to store the sorted result
+     int[] nums3 = new int[m+n];
+     //index for nums1
+     int i = 0;
+     //index for nums2
+     int j = 0;
+     for (int k = 0;k< m+n && i<m && j<n;k++) {
+         //normal process, store the smaller one
+         if(nums1[i] <= nums2[j]){
+             nums3[k] = nums1[i];
+             i++;
+         }
+         else {
+             nums3[k] = nums2[j];
+             j++;
+         }
+     }
+     //boundary i == m or j == n
+     while (i ==m || j ==n )
+     {
+         if (i <m ){
+             nums3[i+j] = nums1[i];
+             i++;
+         }
+         else if (j < n){
+             nums3[i+j] = nums2[j];
+             j++;
+         }
+         else if ( i == m && j == n){
+             break;
+         }
+     }
+     //copy nums3 to nums1
+     for (int k = 0;k<m+n;k++){
+         nums1[k] = nums3[k];
+     }
+    }
+}
