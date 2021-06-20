@@ -1,0 +1,67 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode reverseKGroup(ListNode head, int k) {
+        //因为在后续的操作中有last.next处理，若last == null,会触发空指针异常，因此加一个保护节点
+        ListNode protectNode = new ListNode(0,head);
+        //last指向上一组的末尾节点（其实就是逆转后上一组原来的head）
+        ListNode last = protectNode;
+        while (head != null) {
+            //先分组，拿到每一组的head,end
+            ListNode end = getEnd(head,k);
+            //处理最后一个节点
+            if(end == null){
+                break;
+            }
+            //因为逆转后，下一组逆转前的head无法得到，需要先保存
+            ListNode nextGroupHead = end.next;
+            //逆转每一组的链表
+            reverseList(head,end);
+            //上一组最后一个节点的指针指向本组当前head（也就是旧end）
+            last.next = end;
+            //当前本组end（也就是旧head）指向未逆转的下一组的head
+            head.next = nextGroupHead;
+            //处理完本组之后，对于下一组而言，上一组的末尾节点（也就是旧head）更新
+            last = head;
+            //而head指向下一组未翻转的nextGroupHead节点
+            head = nextGroupHead;
+        }
+        return protectNode.next;
+    }
+
+    private ListNode getEnd(ListNode head, int k) {
+        while(head != null ){
+            //处理k-1条边
+            k--;
+            if(k == 0){
+                break;
+            }
+            head = head.next;
+        }
+        return head;
+    }
+
+    private void reverseList(ListNode head,ListNode end) {
+    if (head == end) {
+        return ;
+    }
+    //last指向上一个节点，因为这里只需要从组内第二个节点开始处理逆转，所以last指向第一个节点
+    ListNode last = head;
+    head = head.next;
+    while(head != end) {
+        ListNode nextHead = head.next;
+        head.next = last;
+        last = head;
+        head = nextHead;
+    }
+    end.next = last;
+    }  
+}
