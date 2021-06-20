@@ -1,0 +1,27 @@
+class Solution {
+    public int[] plusOne(int[] digits) {
+        //因为是要从数组的末尾开始加，数组可以直接通过下标访问，因此先计算出length，方便下标计算
+        int length = digits.length;
+        int end = length -1;
+        //无论是否进位，数组最后一位都需要+1
+        digits[end]++;
+        //处理最高位不为9的情况
+        while (digits[end] == 10 && end >0){
+            digits[end] = 0;
+            digits[end-1]++;
+            end--;
+        }
+        //若最高位为9，那么原先的数组长度不够用，需要返回一个新数组，新数组头两位需要特殊处理，后续的可以从原数组直接拷贝过来
+        if (digits[0] == 10) {
+            int[] newDigits = new int[length+1];
+            newDigits[0] = 1;
+            newDigits[1] = 0;
+            for(int i = 1; i < length;i++ ){
+                newDigits[i+1] = digits[i];
+            }
+            return newDigits;
+        }
+
+        return digits;
+}
+}
